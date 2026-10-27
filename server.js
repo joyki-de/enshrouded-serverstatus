@@ -1,10 +1,28 @@
 const express = require('express');
 const path = require('path');
-const GameDig = require('gamedig');
+const gamedig = require('gamedig');
 require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+const queryServer = async (options) => {
+  if (typeof gamedig === 'function') {
+    return await gamedig(options);
+  }
+  if (gamedig && typeof gamedig.query === 'function') {
+    return await gamedig.query(options);
+  }
+  if (gamedig && gamedig.default) {
+    if (typeof gamedig.default === 'function') {
+      return await gamedig.default(options);
+    }
+    if (typeof gamedig.default.query === 'function') {
+      return await gamedig.default.query(options);
+    }
+  }
+  throw new Error('GameDig.query is not available');
+};
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
@@ -20,7 +38,7 @@ app.get('/api/status', async (req, res) => {
   }
 
   try {
-    const state = await GameDig.query({
+    const state = await queryServer({
       type: 'enshrouded',
       host: host,
       port: parseInt(port, 10),
