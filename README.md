@@ -59,11 +59,29 @@ services:
     restart: unless-stopped
 ```
 
+Alternativ kannst du die Einstellungen direkt über `environment:` im Compose-File angeben, ohne eine `.env`-Datei zu verwenden:
+
+```yaml
+services:
+  enshrouded-status:
+    image: joyki/enshrouded-serverstatus:latest
+    container_name: enshrouded-statuspage
+    environment:
+      - SERVER_HOST=dein-server.de
+      - SERVER_QUERY_PORT=27015
+      - PORT=3000
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+```
+
 Dann starten:
 ```bash
 cp .env.example .env
 docker compose up -d
 ```
+
+> **Hinweis:** Falls sowohl `env_file:` als `environment:` genutzt werden, überschreiben die `environment:`-Einträge die Werte aus der `.env`-Datei. Auch Werte aus deiner Shell lassen sich über `${VAR}` übernehmen.
 
 ### Option 3: Direkt mit Docker
 ```bash
