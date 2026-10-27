@@ -7,19 +7,25 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 const queryServer = async (options) => {
-  if (typeof gamedig === 'function') {
-    return await gamedig(options);
+  if (gamedig && gamedig.GameDig && typeof gamedig.GameDig.query === 'function') {
+    return await gamedig.GameDig.query(options);
   }
   if (gamedig && typeof gamedig.query === 'function') {
     return await gamedig.query(options);
   }
   if (gamedig && gamedig.default) {
-    if (typeof gamedig.default === 'function') {
-      return await gamedig.default(options);
+    if (gamedig.default.GameDig && typeof gamedig.default.GameDig.query === 'function') {
+      return await gamedig.default.GameDig.query(options);
     }
     if (typeof gamedig.default.query === 'function') {
       return await gamedig.default.query(options);
     }
+    if (typeof gamedig.default === 'function') {
+      return await gamedig.default(options);
+    }
+  }
+  if (typeof gamedig === 'function') {
+    return await gamedig(options);
   }
   throw new Error('GameDig.query is not available');
 };
