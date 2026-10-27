@@ -1,3 +1,23 @@
+async function fetchConfig() {
+  try {
+    const res = await fetch('/api/config', { cache: 'no-store' });
+    const json = await res.json();
+    const detailsSection = document.getElementById('detailsSection');
+    if (detailsSection) {
+      if (json.showDetails) {
+        detailsSection.style.display = 'flex';
+      } else {
+        detailsSection.style.display = 'none';
+      }
+    }
+  } catch (e) {
+    const detailsSection = document.getElementById('detailsSection');
+    if (detailsSection) {
+      detailsSection.style.display = 'none';
+    }
+  }
+}
+
 async function fetchStatus() {
   const statusBadge = document.getElementById('statusBadge');
   const serverNameEl = document.getElementById('serverName');
@@ -169,5 +189,7 @@ async function fetchStatus() {
   }
 }
 
+fetchConfig();
 fetchStatus();
+setInterval(fetchConfig, 60000);
 setInterval(fetchStatus, 60000);

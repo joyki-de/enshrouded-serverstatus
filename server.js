@@ -33,6 +33,11 @@ const queryServer = async (options) => {
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
+app.get('/api/config', (req, res) => {
+  const showDetails = String(process.env.SHOW_DETAILS || '').toLowerCase() === 'true';
+  res.json({ showDetails });
+});
+
 app.get('/api/status', async (req, res) => {
   const host = process.env.SERVER_HOST;
   const port = process.env.SERVER_QUERY_PORT;
