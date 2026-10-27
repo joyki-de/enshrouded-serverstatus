@@ -25,9 +25,17 @@ cp .env.example .env
 SERVER_HOST=dein-server.de
 SERVER_QUERY_PORT=27015
 PORT=3000
+# SHOW_DETAILS=TRUE  # Optional: Zeigt den "Server-Details"-Bereich
 ```
 
 > Der Query-Port ist nicht zwingend identisch mit dem Game-Port. Für Enshrouded findest du ihn in der Server-Konfiguration bzw. muss er in der Firewall freigegeben sein.
+
+| Variable | Erforderlich | Standard | Beschreibung |
+|----------|--------------|----------|--------------|
+| `SERVER_HOST` | Ja | - | Hostname oder IP-Adresse des Enshrouded Dedicated Servers |
+| `SERVER_QUERY_PORT` | Ja | - | A2S Query-Port (UDP) |
+| `PORT` | Nein | `3000` | Port, auf dem der Webserver läuft |
+| `SHOW_DETAILS` | Nein | `false` | Auf `TRUE` setzen, um den Bereich "Server-Details" anzuzeigen |
 
 ## Lokal starten
 ```bash
@@ -70,6 +78,7 @@ services:
       - SERVER_HOST=dein-server.de
       - SERVER_QUERY_PORT=27015
       - PORT=3000
+      # - SHOW_DETAILS=TRUE
     ports:
       - "3000:3000"
     restart: unless-stopped
