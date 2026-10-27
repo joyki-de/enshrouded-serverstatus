@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enshrouded Server Status</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <header class="header">
+    <div class="container">
+      <h1>Enshrouded Server Status</h1>
+      <p class="subtitle">Live-Status über Steam A2S Query</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="status-card">
+      <div class="status-header">
+        <div>
+          <h2 class="server-name" id="serverName">Lade...</h2>
+          <p class="server-address" id="serverAddress"></p>
+        </div>
+        <span class="status-badge" id="statusBadge">Unbekannt</span>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat">
+          <span class="stat-label">Spieler</span>
+          <span class="stat-value"><span id="playersOnline">0</span> / <span id="playersMax">0</span></span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Map / Welt</span>
+          <span class="stat-value" id="mapName">-</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Passwortgeschützt</span>
+          <span class="stat-value" id="passwordProtected">-</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Letzte Aktualisierung</span>
+          <span class="stat-value" id="lastUpdate">-</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h3>Spielerliste</h3>
+        <span class="section-count" id="playerCount">0 Spieler</span>
+      </div>
+      <div class="table-wrapper">
+        <table class="players-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Spielzeit</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody id="playersTableBody">
+            <tr>
+              <td colspan="3" class="empty">Wird geladen...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h3>Server-Details</h3>
+      </div>
+      <div class="details-grid" id="detailsGrid"></div>
+    </section>
+
+    <section class="error-section" id="errorSection" style="display:none;">
+      <div class="error-card">
+        <h3>Server nicht erreichbar</h3>
+        <p id="errorMessage"></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>Abfrage via Steam A2S · Refresh alle 60 Sekunden</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+
+</html>

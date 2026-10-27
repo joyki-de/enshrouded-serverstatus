@@ -1,0 +1,56 @@
+# Enshrouded Statuspage
+
+Statusseite für den **Enshrouded Dedicated Server**. Fragt den Server via **Steam A2S Game Server Query** (UDP) ab und zeigt Servername, Status, Spieleranzahl + Spielerliste, Map/Welt, Passwortschutz und alle weiteren verfügbaren A2S-Informationen an.
+
+## Features
+- Live-Status via A2S
+- Spieleranzahl & Spielerliste (Name, Spielzeit, Score)
+- Serverdetails aus dem kompletten A2S-Response
+- Auto-Refresh alle 60 Sekunden
+- Für Docker optimiert
+- Konfiguration über `.env`
+
+## Voraussetzungen
+- Node.js 18+ (für lokales Ausführen)
+- Docker & Docker Compose (für Container)
+- Erreichbarer A2S Query-Port des Enshrouded Dedicated Servers (UDP)
+
+## Konfiguration
+1. `.env.example` zu `.env` kopieren
+```bash
+cp .env.example .env
+```
+2. Werte eintragen
+```env
+SERVER_HOST=dein-server.de
+SERVER_QUERY_PORT=27015
+PORT=3000
+```
+
+> Der Query-Port ist nicht zwingend identisch mit dem Game-Port. Für Enshrouded findest du ihn in der Server-Konfiguration bzw. muss er in der Firewall freigegeben sein.
+
+## Lokal starten
+```bash
+npm install
+npm start
+```
+Öffne dann [http://localhost:3000](http://localhost:3000)
+
+## Mit Docker starten
+```bash
+cp .env.example .env
+docker compose up -d --build
+```
+Öffne dann [http://localhost:3000](http://localhost:3000)
+
+## API
+- `GET /api/status` – Führt eine A2S-Abfrage durch und gibt das Ergebnis als JSON zurück
+- `GET /api/health` – Healthcheck
+
+## Tech Stack
+- [Express](https://expressjs.com/)
+- [gamedig](https://github.com/gamedig/node-gamedig) – A2S/Game Server Query
+- Vanilla HTML/CSS/JS
+
+## Hinweis
+Die Seite kommuniziert nicht direkt aus dem Browser mit dem Game Server, sondern über das Node.js-Backend (da A2S/UDP nicht aus dem Browser möglich ist). Der Query-Port muss also vom Host/Container aus erreichbar sein.
