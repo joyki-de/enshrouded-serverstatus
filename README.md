@@ -37,10 +37,44 @@ npm start
 Öffne dann [http://localhost:3000](http://localhost:3000)
 
 ## Mit Docker starten
+
+### Option 1: Docker Compose mit Build
 ```bash
 cp .env.example .env
 docker compose up -d --build
 ```
+
+### Option 2: Docker Compose mit vorgefertigtem Image
+Erstelle eine `docker-compose.yml`:
+
+```yaml
+services:
+  enshrouded-status:
+    image: joyki/enshrouded-serverstatus:latest
+    container_name: enshrouded-statuspage
+    env_file:
+      - .env
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+```
+
+Dann starten:
+```bash
+cp .env.example .env
+docker compose up -d
+```
+
+### Option 3: Direkt mit Docker
+```bash
+docker run -d \
+  --name enshrouded-statuspage \
+  --env-file .env \
+  -p 3000:3000 \
+  --restart unless-stopped \
+  joyki/enshrouded-serverstatus:latest
+```
+
 Öffne dann [http://localhost:3000](http://localhost:3000)
 
 ## API
